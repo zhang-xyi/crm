@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+    <!--  设置注解扫描路径 @Controller -->
+    <context:component-scan base-package="com.powernode.controller"/>
+
+    <!-- 打开springmvc映射器和适配器  @RequestMapping @ResponseBody @RestController  @PathVariable @RequestParam -->
+    <mvc:annotation-driven/>
+
+    <!-- 对模型视图名称的解析，即在模型视图名称添加前后缀 -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:prefix="/WEB-INF/pages/" p:suffix=".jsp"/>
+
+<!--
+    &lt;!&ndash; 拦截器配置 &ndash;&gt;
+    <mvc:interceptors>
+        &lt;!&ndash; 多个拦截器将顺序执行 &ndash;&gt;
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/> &lt;!&ndash; 拦截路径 &ndash;&gt;
+            <mvc:exclude-mapping path="/login"/>&lt;!&ndash; 不拦截路径 &ndash;&gt;
+            <mvc:exclude-mapping path="/saveLogin"/>&lt;!&ndash; 不拦截路径 &ndash;&gt;
+            <bean class="com.powernode.util.LoginInterceptor"></bean>
+        </mvc:interceptor>
+    </mvc:interceptors>-->
+
+</beans>

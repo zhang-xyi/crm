@@ -1,0 +1,28 @@
+<component name="libraryTable">
+  <library name="ssm">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../../0-动力节点Java培训/04 CRM-yanfei/jar包/annotations-api.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../0-动力节点Java培训/04 CRM-yanfei/jar包/jstl-1.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../0-动力节点Java培训/04 CRM-yanfei/jar包/jstl-impl.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../0-动力节点Java培训/04 CRM-yanfei/jar包/mysql-connector-java-5.1.18-bin.jar!/" />
+      <root url="file://$PROJECT_DIR$/../../../0-动力节点Java培训/04 CRM-yanfei/jar包/jackson" />
+      <root url="file://$PROJECT_DIR$/../../../0-动力节点Java培训/04 CRM-yanfei/jar包/log4j" />
+      <root url="file://$PROJECT_DIR$/../../../0-动力节点Java培训/04 CRM-yanfei/jar包/mybatis-3.2.8" />
+      <root url="file://$PROJECT_DIR$/../../../0-动力节点Java培训/04 CRM-yanfei/jar包/pagehelper" />
+      <root url="file://$PROJECT_DIR$/../../../0-动力节点Java培训/04 CRM-yanfei/jar包/spring5.2.3" />
+      <root url="file://$PROJECT_DIR$/../../../0-动力节点Java培训/04 CRM-yanfei/jar包/springmvc5.2.3" />
+      <root url="file://$PROJECT_DIR$/../../../0-动力节点Java培训/04 CRM-yanfei/jar包/upload" />
+      <root url="file://$PROJECT_DIR$/../../../0-动力节点Java培训/04 CRM-yanfei/jar包/validation" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+    <jarDirectory url="file://$PROJECT_DIR$/../../../0-动力节点Java培训/04 CRM-yanfei/jar包/jackson" recursive="false" />
+    <jarDirectory url="file://$PROJECT_DIR$/../../../0-动力节点Java培训/04 CRM-yanfei/jar包/log4j" recursive="false" />
+    <jarDirectory url="file://$PROJECT_DIR$/../../../0-动力节点Java培训/04 CRM-yanfei/jar包/mybatis-3.2.8" recursive="false" />
+    <jarDirectory url="file://$PROJECT_DIR$/../../../0-动力节点Java培训/04 CRM-yanfei/jar包/pagehelper" recursive="false" />
+    <jarDirectory url="file://$PROJECT_DIR$/../../../0-动力节点Java培训/04 CRM-yanfei/jar包/spring5.2.3" recursive="false" />
+    <jarDirectory url="file://$PROJECT_DIR$/../../../0-动力节点Java培训/04 CRM-yanfei/jar包/springmvc5.2.3" recursive="false" />
+    <jarDirectory url="file://$PROJECT_DIR$/../../../0-动力节点Java培训/04 CRM-yanfei/jar包/upload" recursive="false" />
+    <jarDirectory url="file://$PROJECT_DIR$/../../../0-动力节点Java培训/04 CRM-yanfei/jar包/validation" recursive="false" />
+  </library>
+</component>
