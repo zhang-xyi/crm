@@ -1,5 +1,8 @@
 package com.powernode.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -79,6 +82,8 @@ public class Employee implements Serializable {
     /**
      * 失效日期
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+08:00")
     private Date employeeExpireTime;
     private String startTime;
     private String endTime;
@@ -119,10 +124,15 @@ public class Employee implements Serializable {
      */
     private String employeeStatusStr;
 
+    /**
+     * 提示信息
+     */
+    private String msg;
+
     private static final long serialVersionUID = 1L;
 
     public String getEmployeeStatusStr() {
-        return employeeStatus==0?"<span style='color: red'>禁用</span>":"<span style='color: green'>启用</span>";
+        return employeeStatus==1?"<span style='color: green'>启用</span>":"<span style='color: red'>禁用</span>";
     }
 
     public void setEmployeeStatusStr(String employeeStatusStr) {
@@ -327,5 +337,13 @@ public class Employee implements Serializable {
 
     public void setEndTime(String endTime) {
         this.endTime = endTime;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 }

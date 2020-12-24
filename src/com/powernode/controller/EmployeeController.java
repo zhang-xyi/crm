@@ -8,6 +8,7 @@ import com.powernode.util.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,60 +34,43 @@ public class EmployeeController {
     private DeptService deptService;
 
     @RequestMapping("list")
-    /*public PageInfo<Employee> list(Employee employee, ArrayList<Dept> deptList) {
-        deptList.addAll(deptService.list());
-        PageInfo<Employee> pageInfo=new PageInfo<>();
+    public PageInfo<Employee> list(Employee employee) {
+//        deptList.addAll(deptService.list());
+        PageInfo<Employee> pageInfo = new PageInfo<>();
         pageInfo.setList(employeeService.list(employee));
         return pageInfo;
-    }*/
+    }
+    /*分页不生效
     public void list(PageInfo<Employee> pageInfo,Employee employee, ArrayList<Dept> deptList) {
         deptList.addAll(deptService.list());
         pageInfo.setList(employeeService.list(employee));
-    }
-
-    @RequestMapping("get")
-    public Employee get(int empId) {
-        return employeeService.get(empId);
-    }
-
-    @RequestMapping("edit")
-    public Employee update(Integer empId) {
-        if (empId != null) {
-            return employeeService.get(empId);
-        } else {
-            return null;
-        }
-
-    }
-
-    @RequestMapping("update")
-    public String update(Employee employee) {
-        if (employee.getEmployeeId() != null) {
-            employeeService.update(employee);
-        } else {
-            employeeService.save(employee);
-        }
-        return "redirect:list";
-    }
+    }*/
 
     /*@RequestMapping("add")
     public void add(Employee employee){
+    }*/
 
-    }
     @RequestMapping("saveAdd")
-    public String saveAdd(Employee employee){
+    public String saveAdd(Employee employee) {
         employeeService.save(employee);
         return "redirect:list";
     }
 
-    @RequestMapping("update")
-    public  Employee update(int empId){
-       return employeeService.get(empId);
+    @RequestMapping("get")
+//    将java对象转为json格式的数据
+    @ResponseBody
+    public Employee get(int employeeId ) {
+        return employeeService.get(employeeId);
     }
 
+    /*@RequestMapping("update")
+    public  Employee update(int empId){
+       return employeeService.get(empId);
+    }*/
+
     @RequestMapping("saveUpdate")
-    public String saveUpdate(Employee employee){
+    public String saveUpdate(Employee employee) {
         employeeService.update(employee);
         return "redirect:list";
-    }*/
+    }
 }

@@ -18,16 +18,15 @@
     <!-- 对模型视图名称的解析，即在模型视图名称添加前后缀 -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:prefix="/WEB-INF/pages/" p:suffix=".jsp"/>
 
-<!--
-    &lt;!&ndash; 拦截器配置 &ndash;&gt;
+    <!-- 拦截器配置 -->
     <mvc:interceptors>
-        &lt;!&ndash; 多个拦截器将顺序执行 &ndash;&gt;
+        <!-- 多个拦截器将顺序执行 -->
         <mvc:interceptor>
-            <mvc:mapping path="/**"/> &lt;!&ndash; 拦截路径 &ndash;&gt;
-            <mvc:exclude-mapping path="/login"/>&lt;!&ndash; 不拦截路径 &ndash;&gt;
-            <mvc:exclude-mapping path="/saveLogin"/>&lt;!&ndash; 不拦截路径 &ndash;&gt;
+            <mvc:mapping path="/**"/> <!-- 拦截路径 -->
+            <mvc:exclude-mapping path="/login"/><!-- 不拦截路径 -->
+            <mvc:exclude-mapping path="/doLogin"/><!-- 不拦截路径 -->
             <bean class="com.powernode.util.LoginInterceptor"></bean>
         </mvc:interceptor>
-    </mvc:interceptors>-->
+    </mvc:interceptors>
 
 </beans>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.powernode.model.dao.DictionaryTypeDao">
+  <resultMap id="BaseResultMap" type="com.powernode.entity.DictionaryType">
+    <id column="dict_type_id" jdbcType="INTEGER" property="dictTypeId" />
+    <result column="dict_type_name" jdbcType="VARCHAR" property="dictTypeName" />
+    <result column="dict_type_code" jdbcType="VARCHAR" property="dictTypeCode" />
+    <result column="dict_type_status" jdbcType="INTEGER" property="dictTypeStatus" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    dict_type_id, dict_type_name, dict_type_code, dict_type_status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_dictionary_type
+    where dict_type_id = #{dictTypeId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_dictionary_type
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_dictionary_type
+    where dict_type_id = #{dictTypeId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="dict_type_id" keyProperty="dictTypeId" parameterType="com.powernode.entity.DictionaryType" useGeneratedKeys="true">
+    insert into t_dictionary_type (dict_type_name, dict_type_code, dict_type_status
+      )
+    values (#{dictTypeName,jdbcType=VARCHAR}, #{dictTypeCode,jdbcType=VARCHAR}, #{dictTypeStatus,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="dict_type_id" keyProperty="dictTypeId" parameterType="com.powernode.entity.DictionaryType" useGeneratedKeys="true">
+    insert into t_dictionary_type
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="dictTypeName != null">
+        dict_type_name,
+      </if>
+      <if test="dictTypeCode != null">
+        dict_type_code,
+      </if>
+      <if test="dictTypeStatus != null">
+        dict_type_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="dictTypeName != null">
+        #{dictTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="dictTypeCode != null">
+        #{dictTypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="dictTypeStatus != null">
+        #{dictTypeStatus,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.powernode.entity.DictionaryType">
+    update t_dictionary_type
+    <set>
+      <if test="dictTypeName != null">
+        dict_type_name = #{dictTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="dictTypeCode != null">
+        dict_type_code = #{dictTypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="dictTypeStatus != null">
+        dict_type_status = #{dictTypeStatus,jdbcType=INTEGER},
+      </if>
+    </set>
+    where dict_type_id = #{dictTypeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.powernode.entity.DictionaryType">
+    update t_dictionary_type
+    set dict_type_name = #{dictTypeName,jdbcType=VARCHAR},
+      dict_type_code = #{dictTypeCode,jdbcType=VARCHAR},
+      dict_type_status = #{dictTypeStatus,jdbcType=INTEGER}
+    where dict_type_id = #{dictTypeId,jdbcType=INTEGER}
+  </update>
+</mapper>

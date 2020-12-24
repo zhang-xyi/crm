@@ -14,6 +14,8 @@ public interface EmployeeDao {
 
     Employee selectByPrimaryKey(Integer employeeId);
 
+    Employee selectOne(Employee record);
+
     List<Employee> selectAll(@Param("employee") Employee employee);
 
     int updateByPrimaryKeySelective(Employee record);

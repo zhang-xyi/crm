@@ -105,7 +105,7 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-					<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="window.location.href='../login.html';">更新</button>
+					<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="window.location.href='../login.jsp';">更新</button>
 				</div>
 			</div>
 		</div>
@@ -126,7 +126,7 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-					<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="window.location.href='../login.html';">确定</button>
+					<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="window.location.href='${pageContext.request.contextPath}/logout';">确定</button>
 				</div>
 			</div>
 		</div>
@@ -139,7 +139,7 @@
 			<ul>
 				<li class="dropdown user-dropdown">
 					<a href="javascript:void(0)" style="text-decoration: none; color: white;" class="dropdown-toggle" data-toggle="dropdown">
-						<span class="glyphicon glyphicon-user"></span> zhangsan <span class="caret"></span>
+						<span class="glyphicon glyphicon-user"></span> ${LOGIN_EMPLOYEE.employeeName} <span class="caret"></span>
 					</a>
 					<ul class="dropdown-menu">
 						<li><a href="javascript:void(0)" data-toggle="modal" data-target="#myInformation"><span class="glyphicon glyphicon-file"></span> 我的资料</a></li>
@@ -165,7 +165,7 @@
 
 				<li class="liClass"><a href="${pageContext.request.contextPath}/employee/list" target="workareaFrame"><span class="glyphicon glyphicon-user"></span> 员工</a></li>
 
-				<li class="liClass"><a href="../settings/dictionary/type/index.html" target="workareaFrame"><span class="glyphicon glyphicon-book"></span> 数据字典</a></li>
+				<li class="liClass"><a href="${pageContext.request.contextPath}/dictType/list" target="workareaFrame"><span class="glyphicon glyphicon-book"></span> 数据字典</a></li>
 
 				<li class="liClass"><a href="activity/index.html" target="workareaFrame"><span class="glyphicon glyphicon-play-circle"></span> 市场活动</a></li>
 

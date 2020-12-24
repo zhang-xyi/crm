@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.powernode.model.dao.DictionaryDao">
+  <resultMap id="BaseResultMap" type="com.powernode.entity.Dictionary">
+    <id column="dict_id" jdbcType="INTEGER" property="dictId" />
+    <result column="dict_type_id" jdbcType="INTEGER" property="dictTypeId" />
+    <result column="dict_value" jdbcType="VARCHAR" property="dictValue" />
+    <result column="dict_order" jdbcType="INTEGER" property="dictOrder" />
+    <result column="dict_status" jdbcType="INTEGER" property="dictStatus" />
+    <result column="dict_type_code" jdbcType="VARCHAR" property="dictionaryType.dictTypeCode" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    dict_id, dict_type_id, dict_value, dict_order, dict_status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_dictionary
+    where dict_id = #{dictId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll"  resultMap="BaseResultMap">
+    select
+    d.dict_id, d.dict_type_id, d.dict_value, d.dict_order, d.dict_status,
+    dt.dict_type_code
+    from t_dictionary d
+    left join t_dictionary_type dt
+    on d.dict_type_id = dt.dict_type_id
+    where d.dict_status = 1
+    order by d.dict_order
+  </select>
+  <select id="selectByDictTypeId"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_dictionary
+    where dict_type_id = #{dictTypeId}
+    order by dict_order
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_dictionary
+    where dict_id = #{dictId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="dict_id" keyProperty="dictId" parameterType="com.powernode.entity.Dictionary" useGeneratedKeys="true">
+    insert into t_dictionary (dict_type_id, dict_value, dict_order, 
+      dict_status)
+    values (#{dictTypeId,jdbcType=INTEGER}, #{dictValue,jdbcType=VARCHAR}, #{dictOrder,jdbcType=INTEGER}, 
+      #{dictStatus,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" keyColumn="dict_id" keyProperty="dictId" parameterType="com.powernode.entity.Dictionary" useGeneratedKeys="true">
+    insert into t_dictionary
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="dictTypeId != null">
+        dict_type_id,
+      </if>
+      <if test="dictValue != null">
+        dict_value,
+      </if>
+      <if test="dictOrder != null">
+        dict_order,
+      </if>
+      <if test="dictStatus != null">
+        dict_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="dictTypeId != null">
+        #{dictTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="dictValue != null">
+        #{dictValue,jdbcType=VARCHAR},
+      </if>
+      <if test="dictOrder != null">
+        #{dictOrder,jdbcType=INTEGER},
+      </if>
+      <if test="dictStatus != null">
+        #{dictStatus,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.powernode.entity.Dictionary">
+    update t_dictionary
+    <set>
+      <if test="dictTypeId != null">
+        dict_type_id = #{dictTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="dictValue != null">
+        dict_value = #{dictValue,jdbcType=VARCHAR},
+      </if>
+      <if test="dictOrder != null">
+        dict_order = #{dictOrder,jdbcType=INTEGER},
+      </if>
+      <if test="dictStatus != null">
+        dict_status = #{dictStatus,jdbcType=INTEGER},
+      </if>
+    </set>
+    where dict_id = #{dictId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.powernode.entity.Dictionary">
+    update t_dictionary
+    set dict_type_id = #{dictTypeId,jdbcType=INTEGER},
+      dict_value = #{dictValue,jdbcType=VARCHAR},
+      dict_order = #{dictOrder,jdbcType=INTEGER},
+      dict_status = #{dictStatus,jdbcType=INTEGER}
+    where dict_id = #{dictId,jdbcType=INTEGER}
+  </update>
+</mapper>

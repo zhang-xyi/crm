@@ -99,19 +99,16 @@ public class Util {
     }
 
 
-/*
 
     public static Employee getLoginEmployeeFromSession(){
         //从当前本地线程中获取请求
         return (Employee)getObjectFromSession(Constants.LOGIN_EMPLOYEE);
     }
 
-
     public static Integer getLoginEmplIdFromSession(){
 
         return getLoginEmployeeFromSession().getEmployeeId();
     }
-*/
 
     public static void putObjectToSession(String key,Object obj){
 
