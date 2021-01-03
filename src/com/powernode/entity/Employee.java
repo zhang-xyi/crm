@@ -8,7 +8,8 @@ import java.util.Date;
 
 /**
  * t_employee
- * @author 
+ *
+ * @author
  */
 public class Employee implements Serializable {
     private Integer employeeId;
@@ -83,7 +84,7 @@ public class Employee implements Serializable {
      * 失效日期
      */
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+08:00")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+08:00")
     private Date employeeExpireTime;
     private String startTime;
     private String endTime;
@@ -122,7 +123,7 @@ public class Employee implements Serializable {
     /**
      * 状态(0 离职，1 在职)
      */
-    private String employeeStatusStr;
+//    private String employeeStatusStr;
 
     /**
      * 提示信息
@@ -130,14 +131,13 @@ public class Employee implements Serializable {
     private String msg;
 
     private static final long serialVersionUID = 1L;
-
-    public String getEmployeeStatusStr() {
-        return employeeStatus==1?"<span style='color: green'>启用</span>":"<span style='color: red'>禁用</span>";
-    }
-
-    public void setEmployeeStatusStr(String employeeStatusStr) {
-        this.employeeStatusStr = employeeStatusStr;
-    }
+//    public String getEmployeeStatusStr() {
+////        return employeeStatus==1?"<span style='color: green'>启用</span>":"<span style='color: red'>禁用</span>";
+////    }
+////
+////    public void setEmployeeStatusStr(String employeeStatusStr) {
+////        this.employeeStatusStr = employeeStatusStr;
+////    }
 
     public Dept getDept() {
         return dept;

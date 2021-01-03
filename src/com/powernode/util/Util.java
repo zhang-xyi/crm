@@ -216,6 +216,7 @@ public class Util {
 
     public static String generateDealNo(){
 
+        //S是毫秒
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
 
         return sdf.format(new Date()) + random(15);

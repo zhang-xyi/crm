@@ -2,8 +2,10 @@ package com.powernode.util;
 
 import com.powernode.entity.Dept;
 import com.powernode.entity.Dictionary;
+import com.powernode.entity.DictionaryType;
 import com.powernode.model.service.DeptService;
 import com.powernode.model.service.DictionaryService;
+import com.powernode.model.service.DictionaryTypeService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
@@ -29,7 +31,7 @@ import java.util.Map;
 @Component
 public class ApplicationListener implements ServletContextListener {
 
-    public static void putDictsToApplication(List<Dictionary> dictionaryList,ServletContext application){
+    public static void putDictionaryToApplication(List<Dictionary> dictionaryList, ServletContext application) {
         //保存到application中的字典值的数据结构
         Map<String, Map<Integer, Dictionary>> allDictMap = new LinkedHashMap<>();
 
@@ -56,9 +58,23 @@ public class ApplicationListener implements ServletContextListener {
             currentDictMap.put(dictionary.getDictId(), dictionary);
         }
         //将字典map放到application中
-        application.setAttribute(Constants.DICTIONARYMAP_IN_APPLICATION,allDictMap);
+        System.out.println(allDictMap);
+        application.setAttribute(Constants.DICTIONARYMAP_IN_APPLICATION, allDictMap);
 
 
+    }
+
+    public static void putDictionaryTypeToApplication(List<DictionaryType> dictionaryTypeList, ServletContext application){
+        //字典类型map
+        //map需用String类型作为key，否则el表达式取不到值
+        Map<String, DictionaryType> dictionaryTypeMap = new LinkedHashMap<>();
+        for (DictionaryType dictionaryType : dictionaryTypeList) {
+            //将key转化为字符串类型
+            String dictTypeId = String.valueOf(dictionaryType.getDictTypeId());
+            dictionaryTypeMap.put(dictTypeId, dictionaryType);
+        }
+        System.out.println(dictionaryTypeMap);
+        application.setAttribute(Constants.DICTIONARYTYPE_IN_APPLICATION, dictionaryTypeMap);
     }
 
     @Override
@@ -82,7 +98,6 @@ public class ApplicationListener implements ServletContextListener {
         //把部门map放到application中去
         application.setAttribute(Constants.DEPTMAP_IN_APPLICATION, map);
 
-
         /**
          *将字典数据放到application
          */
@@ -91,7 +106,15 @@ public class ApplicationListener implements ServletContextListener {
         //
         List<Dictionary> dictionaryList = dictionaryService.list();
 
-        putDictsToApplication(dictionaryList,application);
+        /**
+         *将字典数据类型放到application
+         */
+        //从IOC容器中获取DictionaryTypeService
+        DictionaryTypeService dictionaryTypeService = webApplicationContext.getBean(DictionaryTypeService.class);
+        List<DictionaryType> dictionaryTypeList = dictionaryTypeService.list();
+
+        putDictionaryToApplication(dictionaryList, application);
+        putDictionaryTypeToApplication(dictionaryTypeList,application);
 
 
     }

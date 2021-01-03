@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.powernode.model.dao.CustomerDao">
+  <resultMap id="BaseResultMap" type="com.powernode.entity.Customer">
+    <id column="cust_id" jdbcType="INTEGER" property="custId" />
+    <result column="cust_name" jdbcType="VARCHAR" property="custName" />
+    <result column="cust_net" jdbcType="VARCHAR" property="custNet" />
+    <result column="cust_phone" jdbcType="VARCHAR" property="custPhone" />
+    <result column="cust_adress" jdbcType="VARCHAR" property="custAdress" />
+    <result column="cust_remark" jdbcType="VARCHAR" property="custRemark" />
+    <result column="cust_satrt" jdbcType="INTEGER" property="custSatrt" />
+    <result column="create_by" jdbcType="INTEGER" property="createBy" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_by" jdbcType="INTEGER" property="updateBy" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="create_name" jdbcType="VARCHAR" property="creator.employeeName"/>
+    <result column="create_no" jdbcType="VARCHAR" property="creator.employeeNo"/>
+    <result column="update_name" jdbcType="VARCHAR" property="updator.employeeName"/>
+    <result column="update_no" jdbcType="VARCHAR" property="updator.employeeNo"/>
+  </resultMap>
+  <sql id="Base_Column_List">
+    cust_id, cust_name, cust_net, cust_phone, cust_adress, cust_remark, cust_satrt, create_by, 
+    create_time, update_by, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  select
+  <include refid="Base_Column_List" />
+  from t_customer
+  where cust_id = #{custId,jdbcType=INTEGER}
+</select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    c.cust_id, c.cust_name, c.cust_net, c.cust_phone,
+    c.cust_adress, c.cust_remark, c.cust_satrt, c.create_by,
+    c.create_time, c.update_by, c.update_time,
+    ec.employee_name create_name,ec.employee_no create_no,
+    eu.employee_name update_name,eu.employee_no update_no
+    from t_customer c
+    left join t_employee ec on c.create_by = ec.employee_id
+    left join t_employee eu on c.update_by = eu.employee_id
+  </select>
+  <select id="selectByName" resultMap="BaseResultMap">
+    select
+    cust_name,cust_id
+    from t_customer
+    where cust_name like concat('%',#{name},'%')
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_customer
+    where cust_id = #{custId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="cust_id" keyProperty="custId" parameterType="com.powernode.entity.Customer" useGeneratedKeys="true">
+    insert into t_customer (cust_name, cust_net, cust_phone, 
+      cust_adress, cust_remark, cust_satrt, 
+      create_by, create_time, update_by, 
+      update_time)
+    values (#{custName,jdbcType=VARCHAR}, #{custNet,jdbcType=VARCHAR}, #{custPhone,jdbcType=VARCHAR}, 
+      #{custAdress,jdbcType=VARCHAR}, #{custRemark,jdbcType=VARCHAR}, #{custSatrt,jdbcType=INTEGER}, 
+      #{createBy,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=INTEGER}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyColumn="cust_id" keyProperty="custId" parameterType="com.powernode.entity.Customer" useGeneratedKeys="true">
+    insert into t_customer
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="custName != null">
+        cust_name,
+      </if>
+      <if test="custNet != null">
+        cust_net,
+      </if>
+      <if test="custPhone != null">
+        cust_phone,
+      </if>
+      <if test="custAdress != null">
+        cust_adress,
+      </if>
+      <if test="custRemark != null">
+        cust_remark,
+      </if>
+      <if test="custSatrt != null">
+        cust_satrt,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateBy != null">
+        update_by,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="custName != null">
+        #{custName,jdbcType=VARCHAR},
+      </if>
+      <if test="custNet != null">
+        #{custNet,jdbcType=VARCHAR},
+      </if>
+      <if test="custPhone != null">
+        #{custPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="custAdress != null">
+        #{custAdress,jdbcType=VARCHAR},
+      </if>
+      <if test="custRemark != null">
+        #{custRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="custSatrt != null">
+        #{custSatrt,jdbcType=INTEGER},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.powernode.entity.Customer">
+    update t_customer
+    <set>
+      <if test="custName != null">
+        cust_name = #{custName,jdbcType=VARCHAR},
+      </if>
+      <if test="custNet != null">
+        cust_net = #{custNet,jdbcType=VARCHAR},
+      </if>
+      <if test="custPhone != null">
+        cust_phone = #{custPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="custAdress != null">
+        cust_adress = #{custAdress,jdbcType=VARCHAR},
+      </if>
+      <if test="custRemark != null">
+        cust_remark = #{custRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="custSatrt != null">
+        cust_satrt = #{custSatrt,jdbcType=INTEGER},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        update_by = #{updateBy,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where cust_id = #{custId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.powernode.entity.Customer">
+    update t_customer
+    set cust_name = #{custName,jdbcType=VARCHAR},
+      cust_net = #{custNet,jdbcType=VARCHAR},
+      cust_phone = #{custPhone,jdbcType=VARCHAR},
+      cust_adress = #{custAdress,jdbcType=VARCHAR},
+      cust_remark = #{custRemark,jdbcType=VARCHAR},
+      cust_satrt = #{custSatrt,jdbcType=INTEGER},
+      create_by = #{createBy,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where cust_id = #{custId,jdbcType=INTEGER}
+  </update>
+</mapper>

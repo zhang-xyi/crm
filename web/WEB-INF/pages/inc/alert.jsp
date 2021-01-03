@@ -17,7 +17,7 @@
 </script>
 <%--提示信息的模态窗口--%>
 <div class="modal fade" id="tipModal" role="dialog">
-    <div class="modal-dialog" role="document" style="width: 90%;">
+    <div class="modal-dialog" role="document" style="width: 30%;">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">

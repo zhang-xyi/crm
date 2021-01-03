@@ -49,5 +49,9 @@ public abstract class TempleteController<T> {
         return "redirect:list";
     }
 
+    public T view(Integer id){
+        return getService().get(id);
+    }
+
 
 }

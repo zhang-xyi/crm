@@ -69,6 +69,20 @@
 					<td>${dictionary.dictStatus == 1 ? "<span style='color: green'>启用</span>" : "<span style='color: red'>禁用</span>" }</td>
 				</tr>
 			</c:forEach>
+           <%-- <c:forEach var="entry" items="${DICTIONARYMAP_IN_APPLICATION}" varStatus="vs">
+
+            <c:forEach var="dictEntry" items="${entry.value}">
+                <c:if test="${dictEntry.value.dictId==param.dictId}">
+                <tr class="active">
+                    <td><input type="checkbox" name="dictId" value="${dictEntry.value.dictId}"/></td>
+                    <td>${vs.count}</td>
+                    <td>${dictEntry.value.dictValue}</td>
+                    <td>${dictEntry.value.dictOrder}</td>
+                    <td>${dictEntry.value.dictStatus == 1 ? "<span style='color: green'>启用</span>" : "<span style='color: red'>禁用</span>" }</td>
+                </tr>
+                </c:if>
+            </c:forEach>
+            </c:forEach>--%>
 			</tbody>
 		</table>
 	</div>

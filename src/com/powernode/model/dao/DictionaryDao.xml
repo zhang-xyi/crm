@@ -18,6 +18,7 @@
     from t_dictionary
     where dict_id = #{dictId,jdbcType=INTEGER}
   </select>
+
   <select id="selectAll"  resultMap="BaseResultMap">
     select
     d.dict_id, d.dict_type_id, d.dict_value, d.dict_order, d.dict_status,
@@ -25,7 +26,8 @@
     from t_dictionary d
     left join t_dictionary_type dt
     on d.dict_type_id = dt.dict_type_id
-    where d.dict_status = 1
+    where
+    d.dict_status = 1
     order by d.dict_order
   </select>
   <select id="selectByDictTypeId"  resultMap="BaseResultMap">

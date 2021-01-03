@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.powernode.model.dao.CutomerLinkmanDao">
+  <resultMap id="BaseResultMap" type="com.powernode.entity.CutomerLinkman">
+    <id column="linkman_id" jdbcType="INTEGER" property="linkmanId" />
+    <result column="cust_id" jdbcType="INTEGER" property="custId" />
+    <result column="linkman_name" jdbcType="VARCHAR" property="linkmanName" />
+    <result column="linkman_job" jdbcType="VARCHAR" property="linkmanJob" />
+    <result column="linkman_age" jdbcType="INTEGER" property="linkmanAge" />
+    <result column="linkman_appellation" jdbcType="VARCHAR" property="linkmanAppellation" />
+    <result column="linkman_sex" jdbcType="INTEGER" property="linkmanSex" />
+    <result column="linkman_dept" jdbcType="VARCHAR" property="linkmanDept" />
+    <result column="linkman_mobel_phone" jdbcType="VARCHAR" property="linkmanMobelPhone" />
+    <result column="linkman_phone" jdbcType="VARCHAR" property="linkmanPhone" />
+    <result column="linkman_mail" jdbcType="VARCHAR" property="linkmanMail" />
+    <result column="linkman_adress" jdbcType="VARCHAR" property="linkmanAdress" />
+    <result column="linkman_birthday" jdbcType="DATE" property="linkmanBirthday" />
+    <result column="linkman_next_date" jdbcType="TIMESTAMP" property="linkmanNextDate" />
+    <result column="linkman_remark" jdbcType="VARCHAR" property="linkmanRemark" />
+    <result column="create_by" jdbcType="INTEGER" property="createBy" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_by" jdbcType="INTEGER" property="updateBy" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="cust_name" jdbcType="VARCHAR" property="customer.custName" />
+    <result column="create_name" jdbcType="VARCHAR" property="creator.employeeName"/>
+    <result column="create_no" jdbcType="VARCHAR" property="creator.employeeNo"/>
+    <result column="update_name" jdbcType="VARCHAR" property="updator.employeeName"/>
+    <result column="update_no" jdbcType="VARCHAR" property="updator.employeeNo"/>
+  </resultMap>
+  <sql id="Base_Column_List">
+    linkman_id, cust_id, linkman_name, linkman_job, linkman_age, linkman_appellation, 
+    linkman_sex, linkman_dept, linkman_mobel_phone, linkman_phone, linkman_mail, linkman_adress, 
+    linkman_birthday, linkman_next_date, linkman_remark, create_by, create_time, update_by, 
+    update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    l.linkman_id,l.cust_id,l.linkman_name,l.linkman_job,l.linkman_age,
+    l.linkman_appellation,l.linkman_sex,l.linkman_dept,l.linkman_mobel_phone,l.linkman_phone,
+    l.linkman_mail,l.linkman_adress,l.linkman_birthday,l.linkman_next_date,
+    l.linkman_remark,l.create_by,l.create_time,l.update_by,l.update_time,
+    c.cust_name,
+    ec.employee_name create_name,ec.employee_no create_no,
+    eu.employee_name update_name,eu.employee_no update_no
+    from t_cutomer_linkman l
+    left join t_customer c on l.cust_id = c.cust_id
+    left join t_employee ec on l.create_by = ec.employee_id
+    left join t_employee eu on l.update_by = eu.employee_id
+    where l.linkman_id = #{linkmanId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_cutomer_linkman
+  </select>
+  <select id="selectAllByCustId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    l.linkman_id,l.cust_id,l.linkman_name,l.linkman_job,l.linkman_age,
+    l.linkman_appellation,l.linkman_sex,l.linkman_dept,l.linkman_mobel_phone,l.linkman_phone,
+    l.linkman_mail,l.linkman_adress,l.linkman_birthday,l.linkman_next_date,
+    l.linkman_remark,l.create_by,l.create_time,l.update_by,l.update_time,
+    c.cust_name,
+    ec.employee_name create_name,ec.employee_no create_no,
+    eu.employee_name update_name,eu.employee_no update_no
+    from t_cutomer_linkman l
+    left join t_customer c on l.cust_id = c.cust_id
+    left join t_employee ec on l.create_by = ec.employee_id
+    left join t_employee eu on l.update_by = eu.employee_id
+    where l.cust_id = #{custId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_cutomer_linkman
+    where linkman_id = #{linkmanId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="linkman_id" keyProperty="linkmanId" parameterType="com.powernode.entity.CutomerLinkman" useGeneratedKeys="true">
+    insert into t_cutomer_linkman (cust_id, linkman_name, linkman_job, 
+      linkman_age, linkman_appellation, linkman_sex, 
+      linkman_dept, linkman_mobel_phone, linkman_phone, 
+      linkman_mail, linkman_adress, linkman_birthday, 
+      linkman_next_date, linkman_remark, create_by, 
+      create_time, update_by, update_time
+      )
+    values (#{custId,jdbcType=INTEGER}, #{linkmanName,jdbcType=VARCHAR}, #{linkmanJob,jdbcType=VARCHAR}, 
+      #{linkmanAge,jdbcType=INTEGER}, #{linkmanAppellation,jdbcType=VARCHAR}, #{linkmanSex,jdbcType=INTEGER}, 
+      #{linkmanDept,jdbcType=VARCHAR}, #{linkmanMobelPhone,jdbcType=VARCHAR}, #{linkmanPhone,jdbcType=VARCHAR}, 
+      #{linkmanMail,jdbcType=VARCHAR}, #{linkmanAdress,jdbcType=VARCHAR}, #{linkmanBirthday,jdbcType=DATE}, 
+      #{linkmanNextDate,jdbcType=TIMESTAMP}, #{linkmanRemark,jdbcType=VARCHAR}, #{createBy,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="linkman_id" keyProperty="linkmanId" parameterType="com.powernode.entity.CutomerLinkman" useGeneratedKeys="true">
+    insert into t_cutomer_linkman
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="custId != null">
+        cust_id,
+      </if>
+      <if test="linkmanName != null">
+        linkman_name,
+      </if>
+      <if test="linkmanJob != null">
+        linkman_job,
+      </if>
+      <if test="linkmanAge != null">
+        linkman_age,
+      </if>
+      <if test="linkmanAppellation != null">
+        linkman_appellation,
+      </if>
+      <if test="linkmanSex != null">
+        linkman_sex,
+      </if>
+      <if test="linkmanDept != null">
+        linkman_dept,
+      </if>
+      <if test="linkmanMobelPhone != null">
+        linkman_mobel_phone,
+      </if>
+      <if test="linkmanPhone != null">
+        linkman_phone,
+      </if>
+      <if test="linkmanMail != null">
+        linkman_mail,
+      </if>
+      <if test="linkmanAdress != null">
+        linkman_adress,
+      </if>
+      <if test="linkmanBirthday != null">
+        linkman_birthday,
+      </if>
+      <if test="linkmanNextDate != null">
+        linkman_next_date,
+      </if>
+      <if test="linkmanRemark != null">
+        linkman_remark,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateBy != null">
+        update_by,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="custId != null">
+        #{custId,jdbcType=INTEGER},
+      </if>
+      <if test="linkmanName != null">
+        #{linkmanName,jdbcType=VARCHAR},
+      </if>
+      <if test="linkmanJob != null">
+        #{linkmanJob,jdbcType=VARCHAR},
+      </if>
+      <if test="linkmanAge != null">
+        #{linkmanAge,jdbcType=INTEGER},
+      </if>
+      <if test="linkmanAppellation != null">
+        #{linkmanAppellation,jdbcType=VARCHAR},
+      </if>
+      <if test="linkmanSex != null">
+        #{linkmanSex,jdbcType=INTEGER},
+      </if>
+      <if test="linkmanDept != null">
+        #{linkmanDept,jdbcType=VARCHAR},
+      </if>
+      <if test="linkmanMobelPhone != null">
+        #{linkmanMobelPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="linkmanPhone != null">
+        #{linkmanPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="linkmanMail != null">
+        #{linkmanMail,jdbcType=VARCHAR},
+      </if>
+      <if test="linkmanAdress != null">
+        #{linkmanAdress,jdbcType=VARCHAR},
+      </if>
+      <if test="linkmanBirthday != null">
+        #{linkmanBirthday,jdbcType=DATE},
+      </if>
+      <if test="linkmanNextDate != null">
+        #{linkmanNextDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="linkmanRemark != null">
+        #{linkmanRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.powernode.entity.CutomerLinkman">
+    update t_cutomer_linkman
+    <set>
+      <if test="custId != null">
+        cust_id = #{custId,jdbcType=INTEGER},
+      </if>
+      <if test="linkmanName != null">
+        linkman_name = #{linkmanName,jdbcType=VARCHAR},
+      </if>
+      <if test="linkmanJob != null">
+        linkman_job = #{linkmanJob,jdbcType=VARCHAR},
+      </if>
+      <if test="linkmanAge != null">
+        linkman_age = #{linkmanAge,jdbcType=INTEGER},
+      </if>
+      <if test="linkmanAppellation != null">
+        linkman_appellation = #{linkmanAppellation,jdbcType=VARCHAR},
+      </if>
+      <if test="linkmanSex != null">
+        linkman_sex = #{linkmanSex,jdbcType=INTEGER},
+      </if>
+      <if test="linkmanDept != null">
+        linkman_dept = #{linkmanDept,jdbcType=VARCHAR},
+      </if>
+      <if test="linkmanMobelPhone != null">
+        linkman_mobel_phone = #{linkmanMobelPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="linkmanPhone != null">
+        linkman_phone = #{linkmanPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="linkmanMail != null">
+        linkman_mail = #{linkmanMail,jdbcType=VARCHAR},
+      </if>
+      <if test="linkmanAdress != null">
+        linkman_adress = #{linkmanAdress,jdbcType=VARCHAR},
+      </if>
+      <if test="linkmanBirthday != null">
+        linkman_birthday = #{linkmanBirthday,jdbcType=DATE},
+      </if>
+      <if test="linkmanNextDate != null">
+        linkman_next_date = #{linkmanNextDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="linkmanRemark != null">
+        linkman_remark = #{linkmanRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        update_by = #{updateBy,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where linkman_id = #{linkmanId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.powernode.entity.CutomerLinkman">
+    update t_cutomer_linkman
+    set cust_id = #{custId,jdbcType=INTEGER},
+      linkman_name = #{linkmanName,jdbcType=VARCHAR},
+      linkman_job = #{linkmanJob,jdbcType=VARCHAR},
+      linkman_age = #{linkmanAge,jdbcType=INTEGER},
+      linkman_appellation = #{linkmanAppellation,jdbcType=VARCHAR},
+      linkman_sex = #{linkmanSex,jdbcType=INTEGER},
+      linkman_dept = #{linkmanDept,jdbcType=VARCHAR},
+      linkman_mobel_phone = #{linkmanMobelPhone,jdbcType=VARCHAR},
+      linkman_phone = #{linkmanPhone,jdbcType=VARCHAR},
+      linkman_mail = #{linkmanMail,jdbcType=VARCHAR},
+      linkman_adress = #{linkmanAdress,jdbcType=VARCHAR},
+      linkman_birthday = #{linkmanBirthday,jdbcType=DATE},
+      linkman_next_date = #{linkmanNextDate,jdbcType=TIMESTAMP},
+      linkman_remark = #{linkmanRemark,jdbcType=VARCHAR},
+      create_by = #{createBy,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where linkman_id = #{linkmanId,jdbcType=INTEGER}
+  </update>
+</mapper>

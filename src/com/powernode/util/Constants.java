@@ -17,6 +17,8 @@ public class Constants {
     public static final  String LOGIN_EMPLOYEE ="LOGIN_EMPLOYEE";
     //数据字典在application中的缓存
     public static final  String DICTIONARYMAP_IN_APPLICATION ="DICTIONARYMAP_IN_APPLICATION";
+    //数据字典类型在application中的缓存
+    public static final  String DICTIONARYTYPE_IN_APPLICATION ="DICTIONARYTYPE_IN_APPLICATION";
 
 
 

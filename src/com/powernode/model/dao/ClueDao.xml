@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.powernode.model.dao.ClueDao">
+  <resultMap id="BaseResultMap" type="com.powernode.entity.Clue">
+    <id column="clue_id" jdbcType="INTEGER" property="clueId" />
+    <result column="activity_id" jdbcType="INTEGER" property="activityId" />
+    <result column="clue_title" jdbcType="VARCHAR" property="clueTitle" />
+    <result column="clue_content" jdbcType="VARCHAR" property="clueContent" />
+    <result column="clue_name" jdbcType="VARCHAR" property="clueName" />
+    <result column="clue_phone" jdbcType="VARCHAR" property="cluePhone" />
+    <result column="clue_company" jdbcType="VARCHAR" property="clueCompany" />
+    <result column="clue_company_net" jdbcType="VARCHAR" property="clueCompanyNet" />
+    <result column="clue_company_adress" jdbcType="VARCHAR" property="clueCompanyAdress" />
+    <result column="clue_purpose_name" jdbcType="VARCHAR" property="cluePurposeName" />
+    <result column="clue_purpose_job" jdbcType="VARCHAR" property="cluePurposeJob" />
+    <result column="clue_purpose_mobel_phone" jdbcType="VARCHAR" property="cluePurposeMobelPhone" />
+    <result column="clue_purpose_phone" jdbcType="VARCHAR" property="cluePurposePhone" />
+    <result column="clue_purpose_mail" jdbcType="VARCHAR" property="cluePurposeMail" />
+    <result column="clue_status" jdbcType="INTEGER" property="clueStatus" />
+    <result column="clue_source" jdbcType="INTEGER" property="clueSource" />
+    <result column="create_by" jdbcType="INTEGER" property="createBy" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_by" jdbcType="INTEGER" property="updateBy" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    <result column="activity_name" jdbcType="VARCHAR" property="marketActivity.activityName"/>
+    <result column="create_name" jdbcType="VARCHAR" property="creator.employeeName"/>
+    <result column="create_no" jdbcType="VARCHAR" property="creator.employeeNo"/>
+    <result column="update_name" jdbcType="VARCHAR" property="updator.employeeName"/>
+    <result column="update_no" jdbcType="VARCHAR" property="updator.employeeNo"/>
+  </resultMap>
+  <sql id="Base_Column_List">
+    clue_id, activity_id, clue_title, clue_content, clue_name, clue_phone, clue_company, 
+    clue_company_net, clue_company_adress, clue_purpose_name, clue_purpose_job, clue_purpose_mobel_phone, 
+    clue_purpose_phone, clue_purpose_mail, clue_status, clue_source, create_by, create_time, 
+    update_by, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_clue
+    where clue_id = #{clueId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_clue
+  </select>
+  <select id="selectByTop" resultMap="BaseResultMap">
+    select
+    c.clue_id,c.activity_id,c.clue_title,c.clue_content,c.clue_name,
+    c.clue_phone,c.clue_company,c.clue_company_net,c.clue_company_adress,c.clue_purpose_name,
+    c.clue_purpose_job,c.clue_purpose_mobel_phone,c.clue_purpose_phone,c.clue_purpose_mail,c.clue_status,
+    c.clue_source,c.create_by,c.create_time,c.update_by,c.update_time,
+    m.activity_name,
+    ec.employee_name create_name,ec.employee_no create_no,
+    eu.employee_name update_name,eu.employee_no update_no
+    from t_clue c
+    left join t_market_activity m on c.activity_id = m.activity_id
+    left join t_employee ec on c.create_by = ec.employee_id
+    left join t_employee eu on c.update_by = eu.employee_id
+    limit #{top}
+  </select>
+  <select id="selectByTopKey" resultMap="BaseResultMap">
+    select
+    c.clue_id,c.activity_id,c.clue_title,c.clue_content,c.clue_name,
+    c.clue_phone,c.clue_company,c.clue_company_net,c.clue_company_adress,c.clue_purpose_name,
+    c.clue_purpose_job,c.clue_purpose_mobel_phone,c.clue_purpose_phone,c.clue_purpose_mail,c.clue_status,
+    c.clue_source,c.create_by,c.create_time,c.update_by,c.update_time,
+    m.activity_name,
+    ec.employee_name create_name,ec.employee_no create_no,
+    eu.employee_name update_name,eu.employee_no update_no
+    from t_clue c
+    left join t_market_activity m on c.activity_id = m.activity_id
+    left join t_employee ec on c.create_by = ec.employee_id
+    left join t_employee eu on c.update_by = eu.employee_id
+    <where>
+      <if test="key != null and key != ''">
+        c.clue_title like concat('%',#{key},'%')
+      </if>
+    </where>
+    limit #{top}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_clue
+    where clue_id = #{clueId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="clue_id" keyProperty="clueId" parameterType="com.powernode.entity.Clue" useGeneratedKeys="true">
+    insert into t_clue (activity_id, clue_title, clue_content, 
+      clue_name, clue_phone, clue_company, 
+      clue_company_net, clue_company_adress, clue_purpose_name, 
+      clue_purpose_job, clue_purpose_mobel_phone, 
+      clue_purpose_phone, clue_purpose_mail, clue_status, 
+      clue_source, create_by, create_time, 
+      update_by, update_time)
+    values (#{activityId,jdbcType=INTEGER}, #{clueTitle,jdbcType=VARCHAR}, #{clueContent,jdbcType=VARCHAR}, 
+      #{clueName,jdbcType=VARCHAR}, #{cluePhone,jdbcType=VARCHAR}, #{clueCompany,jdbcType=VARCHAR}, 
+      #{clueCompanyNet,jdbcType=VARCHAR}, #{clueCompanyAdress,jdbcType=VARCHAR}, #{cluePurposeName,jdbcType=VARCHAR}, 
+      #{cluePurposeJob,jdbcType=VARCHAR}, #{cluePurposeMobelPhone,jdbcType=VARCHAR}, 
+      #{cluePurposePhone,jdbcType=VARCHAR}, #{cluePurposeMail,jdbcType=VARCHAR}, #{clueStatus,jdbcType=INTEGER}, 
+      #{clueSource,jdbcType=INTEGER}, #{createBy,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateBy,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyColumn="clue_id" keyProperty="clueId" parameterType="com.powernode.entity.Clue" useGeneratedKeys="true">
+    insert into t_clue
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="activityId != null">
+        activity_id,
+      </if>
+      <if test="clueTitle != null">
+        clue_title,
+      </if>
+      <if test="clueContent != null">
+        clue_content,
+      </if>
+      <if test="clueName != null">
+        clue_name,
+      </if>
+      <if test="cluePhone != null">
+        clue_phone,
+      </if>
+      <if test="clueCompany != null">
+        clue_company,
+      </if>
+      <if test="clueCompanyNet != null">
+        clue_company_net,
+      </if>
+      <if test="clueCompanyAdress != null">
+        clue_company_adress,
+      </if>
+      <if test="cluePurposeName != null">
+        clue_purpose_name,
+      </if>
+      <if test="cluePurposeJob != null">
+        clue_purpose_job,
+      </if>
+      <if test="cluePurposeMobelPhone != null">
+        clue_purpose_mobel_phone,
+      </if>
+      <if test="cluePurposePhone != null">
+        clue_purpose_phone,
+      </if>
+      <if test="cluePurposeMail != null">
+        clue_purpose_mail,
+      </if>
+      <if test="clueStatus != null">
+        clue_status,
+      </if>
+      <if test="clueSource != null">
+        clue_source,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateBy != null">
+        update_by,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="activityId != null">
+        #{activityId,jdbcType=INTEGER},
+      </if>
+      <if test="clueTitle != null">
+        #{clueTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="clueContent != null">
+        #{clueContent,jdbcType=VARCHAR},
+      </if>
+      <if test="clueName != null">
+        #{clueName,jdbcType=VARCHAR},
+      </if>
+      <if test="cluePhone != null">
+        #{cluePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="clueCompany != null">
+        #{clueCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="clueCompanyNet != null">
+        #{clueCompanyNet,jdbcType=VARCHAR},
+      </if>
+      <if test="clueCompanyAdress != null">
+        #{clueCompanyAdress,jdbcType=VARCHAR},
+      </if>
+      <if test="cluePurposeName != null">
+        #{cluePurposeName,jdbcType=VARCHAR},
+      </if>
+      <if test="cluePurposeJob != null">
+        #{cluePurposeJob,jdbcType=VARCHAR},
+      </if>
+      <if test="cluePurposeMobelPhone != null">
+        #{cluePurposeMobelPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="cluePurposePhone != null">
+        #{cluePurposePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="cluePurposeMail != null">
+        #{cluePurposeMail,jdbcType=VARCHAR},
+      </if>
+      <if test="clueStatus != null">
+        #{clueStatus,jdbcType=INTEGER},
+      </if>
+      <if test="clueSource != null">
+        #{clueSource,jdbcType=INTEGER},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.powernode.entity.Clue">
+    update t_clue
+    <set>
+      <if test="activityId != null">
+        activity_id = #{activityId,jdbcType=INTEGER},
+      </if>
+      <if test="clueTitle != null">
+        clue_title = #{clueTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="clueContent != null">
+        clue_content = #{clueContent,jdbcType=VARCHAR},
+      </if>
+      <if test="clueName != null">
+        clue_name = #{clueName,jdbcType=VARCHAR},
+      </if>
+      <if test="cluePhone != null">
+        clue_phone = #{cluePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="clueCompany != null">
+        clue_company = #{clueCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="clueCompanyNet != null">
+        clue_company_net = #{clueCompanyNet,jdbcType=VARCHAR},
+      </if>
+      <if test="clueCompanyAdress != null">
+        clue_company_adress = #{clueCompanyAdress,jdbcType=VARCHAR},
+      </if>
+      <if test="cluePurposeName != null">
+        clue_purpose_name = #{cluePurposeName,jdbcType=VARCHAR},
+      </if>
+      <if test="cluePurposeJob != null">
+        clue_purpose_job = #{cluePurposeJob,jdbcType=VARCHAR},
+      </if>
+      <if test="cluePurposeMobelPhone != null">
+        clue_purpose_mobel_phone = #{cluePurposeMobelPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="cluePurposePhone != null">
+        clue_purpose_phone = #{cluePurposePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="cluePurposeMail != null">
+        clue_purpose_mail = #{cluePurposeMail,jdbcType=VARCHAR},
+      </if>
+      <if test="clueStatus != null">
+        clue_status = #{clueStatus,jdbcType=INTEGER},
+      </if>
+      <if test="clueSource != null">
+        clue_source = #{clueSource,jdbcType=INTEGER},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        update_by = #{updateBy,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where clue_id = #{clueId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.powernode.entity.Clue">
+    update t_clue
+    set activity_id = #{activityId,jdbcType=INTEGER},
+      clue_title = #{clueTitle,jdbcType=VARCHAR},
+      clue_content = #{clueContent,jdbcType=VARCHAR},
+      clue_name = #{clueName,jdbcType=VARCHAR},
+      clue_phone = #{cluePhone,jdbcType=VARCHAR},
+      clue_company = #{clueCompany,jdbcType=VARCHAR},
+      clue_company_net = #{clueCompanyNet,jdbcType=VARCHAR},
+      clue_company_adress = #{clueCompanyAdress,jdbcType=VARCHAR},
+      clue_purpose_name = #{cluePurposeName,jdbcType=VARCHAR},
+      clue_purpose_job = #{cluePurposeJob,jdbcType=VARCHAR},
+      clue_purpose_mobel_phone = #{cluePurposeMobelPhone,jdbcType=VARCHAR},
+      clue_purpose_phone = #{cluePurposePhone,jdbcType=VARCHAR},
+      clue_purpose_mail = #{cluePurposeMail,jdbcType=VARCHAR},
+      clue_status = #{clueStatus,jdbcType=INTEGER},
+      clue_source = #{clueSource,jdbcType=INTEGER},
+      create_by = #{createBy,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where clue_id = #{clueId,jdbcType=INTEGER}
+  </update>
+</mapper>

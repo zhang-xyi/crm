@@ -1,4 +1,5 @@
-<%@ taglib prefix="C" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
@@ -34,10 +35,20 @@
         <label for="create-dicTypeCode" class="col-sm-2 control-label">字典类型编码<span style="font-size: 15px; color: red;">*</span></label>
         <div class="col-sm-10" style="width: 300px;">
             <select name="dictTypeId" class="form-control" id="create-dicTypeCode" style="width: 200%;">
-                <C:forEach var="dictionaryType" items="${DictionaryTypeList}">
+                <%--<c:forEach var="dictionaryType" items="${DictionaryTypeList}">
                     <option value="${dictionaryType.dictTypeId}" ${dictionaryType.dictTypeId eq param.dictTypeId ? "selected = 'selected'" : ""}>
                             ${dictionaryType.dictTypeName}</option>
-                </C:forEach>
+                </c:forEach>--%>
+                <%--<c:forEach var="dictType" items="${DICTIONARYMAP_IN_APPLICATION}">
+                    <c:forEach var="dict" items="${dictType.value}" end="0">
+                    <option value="${dict.value.dictTypeId}" ${dict.value.dictTypeId eq param.dictTypeId ? "selected = 'selected'" : ""}>
+                            ${dictType.key}</option>
+                    </c:forEach>
+                </c:forEach>--%>
+                    <c:forEach var="entry" items="${DICTIONARYTYPE_IN_APPLICATION}">
+                        <option value="${entry.key}" ${entry.key eq param.dictTypeId ? "selected = 'selected'" : ""}>
+                                ${entry.value.dictTypeName}</option>
+                    </c:forEach>
             </select>
         </div>
     </div>
@@ -53,15 +64,16 @@
     <div class="form-group">
         <label for="create-orderNo" class="col-sm-2 control-label">排序号</label>
         <div class="col-sm-10" style="width: 300px;">
-            <input name="dictOrder" type="text" class="form-control" id="create-orderNo" style="width: 200%;">
+            <input name="dictOrder" value="${DICTIONARYTYPE_IN_APPLICATION[param.dictTypeId].maxOrder+1}" type="text" class="form-control" id="create-orderNo" style="width: 200%;">
+
         </div>
     </div>
 
     <div class="form-group">
-        <label for="create-text" class="col-sm-2 control-label">状态</label>
+        <label class="col-sm-2 control-label">状态</label>
         <div class="col-sm-10" style="width: 300px;">
-            <input type="radio" name="dictStatus" value="1" class="form-control"><span style="color: green">启用</span>
-            <input type="radio" name="dictStatus" value="2" class="form-control"><span style="color: red">禁用</span>
+            <input type="radio" name="dictStatus" value="1" checked="checked" class="form-control" id="dictStatus1"><span style="color: green">启用</span>
+            <input type="radio" name="dictStatus" value="2" class="form-control" id="dictStatus2"><span style="color: red">禁用</span>
         </div>
     </div>
 </form>

@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.powernode.model.dao.DealStageDao">
+  <resultMap id="BaseResultMap" type="com.powernode.entity.DealStage">
+    <id column="stage_id" jdbcType="INTEGER" property="stageId" />
+    <result column="deal_id" jdbcType="INTEGER" property="dealId" />
+    <result column="stage_name" jdbcType="VARCHAR" property="stageName" />
+    <result column="stage_status" jdbcType="INTEGER" property="stageStatus" />
+    <result column="stage_amont" jdbcType="DOUBLE" property="stageAmont" />
+    <result column="stage_plan_date" jdbcType="TIMESTAMP" property="stagePlanDate" />
+    <result column="is_current" jdbcType="INTEGER" property="isCurrent" />
+    <result column="create_by" jdbcType="INTEGER" property="createBy" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_by" jdbcType="INTEGER" property="updateBy" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    stage_id, deal_id, stage_name, stage_status, stage_amont, stage_plan_date, is_current,create_by,
+    create_time, update_by, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_deal_stage
+    where stage_id = #{stageId,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectAll"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_deal_stage
+  </select>
+
+  <select id="selectByDeal"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_deal_stage
+    where deal_id = #{dealId}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_deal_stage
+    where stage_id = #{stageId,jdbcType=INTEGER}
+  </delete>
+
+  <delete id="deleteByDeal" parameterType="java.lang.Integer">
+    delete from t_deal_stage
+    where deal_id = #{dealId,jdbcType=INTEGER}
+  </delete>
+
+
+
+
+
+  <insert id="insert" keyColumn="stage_id" keyProperty="stageId" parameterType="com.powernode.entity.DealStage" useGeneratedKeys="true">
+    insert into t_deal_stage (deal_id, stage_name, stage_status,
+      stage_amont, stage_plan_date, create_by,
+      create_time, update_by, update_time
+      )
+    values (#{dealId,jdbcType=INTEGER}, #{stageName,jdbcType=VARCHAR}, #{stageStatus,jdbcType=INTEGER},
+      #{stageAmont,jdbcType=DOUBLE}, #{stagePlanDate,jdbcType=TIMESTAMP}, #{createBy,jdbcType=INTEGER},
+      #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+
+  <insert id="insertBatch">
+    insert into t_deal_stage (deal_id, stage_name, stage_status,
+    stage_amont, stage_plan_date,is_current, create_by,
+    create_time, update_by, update_time
+    )
+    values
+
+    <foreach item="stage" collection="array" separator=",">
+      (
+      #{stage.dealId,jdbcType=INTEGER}, #{stage.stageName,jdbcType=VARCHAR}, #{stage.stageStatus,jdbcType=INTEGER},
+      #{stage.stageAmont,jdbcType=DOUBLE}, #{stage.stagePlanDate,jdbcType=TIMESTAMP},  #{stage.isCurrent,jdbcType=INTEGER},#{stage.createBy,jdbcType=INTEGER},
+      #{stage.createTime,jdbcType=TIMESTAMP}, #{stage.updateBy,jdbcType=INTEGER}, #{stage.updateTime,jdbcType=TIMESTAMP}
+      )
+    </foreach>
+  </insert>
+
+  <insert id="insertSelective" keyColumn="stage_id" keyProperty="stageId" parameterType="com.powernode.entity.DealStage" useGeneratedKeys="true">
+    insert into t_deal_stage
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="dealId != null">
+        deal_id,
+      </if>
+      <if test="stageName != null">
+        stage_name,
+      </if>
+      <if test="stageStatus != null">
+        stage_status,
+      </if>
+      <if test="stageAmont != null">
+        stage_amont,
+      </if>
+      <if test="stagePlanDate != null">
+        stage_plan_date,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateBy != null">
+        update_by,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="dealId != null">
+        #{dealId,jdbcType=INTEGER},
+      </if>
+      <if test="stageName != null">
+        #{stageName,jdbcType=VARCHAR},
+      </if>
+      <if test="stageStatus != null">
+        #{stageStatus,jdbcType=INTEGER},
+      </if>
+      <if test="stageAmont != null">
+        #{stageAmont,jdbcType=DOUBLE},
+      </if>
+      <if test="stagePlanDate != null">
+        #{stagePlanDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.powernode.entity.DealStage">
+    update t_deal_stage
+    <set>
+      <if test="dealId != null">
+        deal_id = #{dealId,jdbcType=INTEGER},
+      </if>
+      <if test="stageName != null">
+        stage_name = #{stageName,jdbcType=VARCHAR},
+      </if>
+      <if test="stageStatus != null">
+        stage_status = #{stageStatus,jdbcType=INTEGER},
+      </if>
+      <if test="stageAmont != null">
+        stage_amont = #{stageAmont,jdbcType=DOUBLE},
+      </if>
+      <if test="stagePlanDate != null">
+        stage_plan_date = #{stagePlanDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        update_by = #{updateBy,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where stage_id = #{stageId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.powernode.entity.DealStage">
+    update t_deal_stage
+    set deal_id = #{dealId,jdbcType=INTEGER},
+      stage_name = #{stageName,jdbcType=VARCHAR},
+      stage_status = #{stageStatus,jdbcType=INTEGER},
+      stage_amont = #{stageAmont,jdbcType=DOUBLE},
+      stage_plan_date = #{stagePlanDate,jdbcType=TIMESTAMP},
+      create_by = #{createBy,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where stage_id = #{stageId,jdbcType=INTEGER}
+  </update>
+</mapper>

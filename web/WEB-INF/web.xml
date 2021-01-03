@@ -16,6 +16,7 @@
     </listener>
 
 
+    <!--配置的spring文件需要在这里扫描-->
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>/WEB-INF/applicationContext.xml,/WEB-INF/spring-*.xml</param-value>

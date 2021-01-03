@@ -6,6 +6,7 @@
     <result column="dict_type_name" jdbcType="VARCHAR" property="dictTypeName" />
     <result column="dict_type_code" jdbcType="VARCHAR" property="dictTypeCode" />
     <result column="dict_type_status" jdbcType="INTEGER" property="dictTypeStatus" />
+    <result column="dict_type_maxOrder" jdbcType="INTEGER" property="maxOrder" />
   </resultMap>
   <sql id="Base_Column_List">
     dict_type_id, dict_type_name, dict_type_code, dict_type_status
@@ -17,9 +18,12 @@
     where dict_type_id = #{dictTypeId,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from t_dictionary_type
+   select
+    dt.dict_type_id, dt.dict_type_name, dt.dict_type_code, dt.dict_type_status,
+	max(d.dict_order) as dict_type_maxOrder
+    from t_dictionary_type dt
+    left join t_dictionary d on d.dict_type_id = dt.dict_type_id
+    group by dt.dict_type_id
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from t_dictionary_type

@@ -15,7 +15,7 @@
 <c:forEach var="entry" items="${DICTIONARYMAP_IN_APPLICATION}">
 
     <c:forEach var="dictEntry" items="${entry.value}">
-        id=${dictEntry.value.dictId},value=${dictEntry.value.dictValue},type=${dictEntry.value.dictionaryType.dictTypeCode},order=${dictEntry.value.dictOrder}
+        id=${dictEntry.value.dictId},value=${dictEntry.value.dictValue},typeID=${dictEntry.value.dictionaryType.dictTypeId},type=${dictEntry.value.dictionaryType.dictTypeCode},order=${dictEntry.value.dictOrder}
         <br>
     </c:forEach>
     <%--type=${dictEntry.value.dictionartType.dictTypeName},--%>
@@ -29,5 +29,11 @@
     </c:forEach>
 </select>
 
+<c:forEach var="entry" items="${DICTIONARYMAP_IN_APPLICATION}">
+
+    key->${entry.key}
+
+    <br>
+</c:forEach>
 </body>
 </html>

@@ -6,6 +6,12 @@
 <link href="${pageContext.request.contextPath}/js/jquery/bootstrap_3.3.0/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery/jquery-1.11.1-min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery/bootstrap_3.3.0/js/bootstrap.min.js"></script>
+	<%--登录页面跳出跳出--%>
+	<script>
+		if(window.top.location.href != window.location.href){
+			window.top.location.href = window.location.href;
+		}
+	</script>
 </head>
 <body>
 	<div style="position: absolute; top: 0px; left: 0px; width: 60%;">

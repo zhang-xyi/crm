@@ -31,7 +31,6 @@
 
     <%--表单绑定插件--%>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery/form_bind.js"></script>
-
     <script>
         $(function () {
             //加载分页插件
@@ -75,7 +74,7 @@
             })
 
             //弹出提示信息
-            function showMsg(msg){
+            function showMsg(msg) {
                 $("#msg").text(msg)
                 $("#tipModal").modal("show");
             }
@@ -85,12 +84,12 @@
                 var checkboxChecked = $("input[name=empyIds]:checked");
                 if (checkboxChecked.length == 1) {
                     $.ajax({
-                        url:"${pageContext.request.contextPath}/employee/get",
-                        type:'GET',
-                        dataType:'json',
-                        data:{employeeId:checkboxChecked.val()},
-                        success:function (json) {
-                            loadData("editForm",json)
+                        url: "${pageContext.request.contextPath}/employee/get",
+                        type: 'GET',
+                        dataType: 'json',
+                        data: {employeeId: checkboxChecked.val()},
+                        success: function (json) {
+                            loadData("editForm", json)
                         }
                     })
 
@@ -99,7 +98,7 @@
                     showMsg("请选择一位员工");
                     window.setTimeout(function () {
                         $("#tipModal").modal("hide");
-                    },2500)
+                    }, 2500)
                 }
 
             })
@@ -173,7 +172,7 @@
                                 <option value="2">禁用</option>
                             </select>
                         </div>
-                        <label for="create-org" class="col-sm-2 control-label">部门<span
+                        <label class="col-sm-2 control-label">部门<span
                                 style="font-size: 15px; color: red;">*</span></label>
                         <div class="col-sm-10" style="width: 300px;">
                             <select name="deptId" class="form-control" id="create-dept">
@@ -235,7 +234,7 @@
                 <h4 class="modal-title">提示信息</h4>
             </div>
             <div class="modal-body">
-                    <div id="msg" style="text-align: center;font-size: 16px"></div>
+                <div id="msg" style="text-align: center;font-size: 16px"></div>
 
             </div>
             <div class="modal-footer">
@@ -295,7 +294,7 @@
                                 <option value="2">禁用</option>
                             </select>
                         </div>
-                        <label for="create-org" class="col-sm-2 control-label">部门<span
+                        <label class="col-sm-2 control-label">部门<span
                                 style="font-size: 15px; color: red;">*</span></label>
                         <div class="col-sm-10" style="width: 300px;">
                             <select name="deptId" class="form-control">
@@ -311,7 +310,7 @@
                         <label for="create-loginPwd" class="col-sm-2 control-label">性别<span
                                 style="font-size: 15px; color: red;">*</span></label>
                         <div class="col-sm-10" style="width: 300px;">
-                            <select name="employeeSex" class="form-control" >
+                            <select name="employeeSex" class="form-control">
                                 <option value="">请选择性别</option>
                                 <option value="0">男</option>
                                 <option value="1">女</option>
@@ -461,7 +460,8 @@
                 <td>${employee.employeeMail}</td>
                 <td><fmt:formatDate value="${employee.employeeExpireTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                 <td>${employee.employeeAllowedIps}</td>
-                <td>${employee.employeeStatusStr}</td>
+                <td>${employee.employeeStatus==1?"<span style='color: green'>启用</span>":"<span style='color: red'>禁用</span>"}</td>
+                    <%--<td>${employee.employeeStatusStr}</td>--%>
                 <td>${employee.creator.employeeName}(${employee.creator.employeeNo})</td>
                 <td><fmt:formatDate value="${employee.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                 <td>${employee.updator.employeeName}(${employee.updator.employeeNo})</td>
@@ -470,43 +470,12 @@
         </c:forEach>
         </tbody>
     </table>
+    <div id="pagination" style="height: 50px; position: relative;top: 30px;">
+
+    </div>
 </div>
 
 
-<div id="pagination" style="height: 72px; position: relative;top: 30px; left: 30px;">
-    <%-- <div>
-     <button type="button" class="btn btn-default" style="cursor: default;">共<b>50</b>条记录</button>
- </div>
-     <div class="btn-group" style="position: relative;top: -34px; left: 110px;">
-         <button type="button" class="btn btn-default" style="cursor: default;">显示</button>
-         <div class="btn-group">
-             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                 10
-                 <span class="caret"></span>
-             </button>
-             <ul class="dropdown-menu" role="menu">
-                 <li><a href="#">20</a></li>
-                 <li><a href="#">30</a></li>
-             </ul>
-         </div>
-         <button type="button" class="btn btn-default" style="cursor: default;">条/页</button>
-     </div>
-     <div style="position: relative;top: -88px; left: 285px;">
-         <nav>
-             <ul class="pagination">
-                 <li class="disabled"><a href="#">首页</a></li>
-                 <li class="disabled"><a href="#">上一页</a></li>
-                 <li class="active"><a href="#">1</a></li>
-                 <li><a href="#">2</a></li>
-                 <li><a href="#">3</a></li>
-                 <li><a href="#">4</a></li>
-                 <li><a href="#">5</a></li>
-                 <li><a href="#">下一页</a></li>
-                 <li class="disabled"><a href="#">末页</a></li>
-             </ul>
-         </nav>
-     </div>--%>
-</div>
 
 </body>
 </html>

@@ -4,6 +4,8 @@ import com.powernode.entity.DictionaryType;
 import com.powernode.model.service.DictionaryTypeService;
 import com.powernode.templete.TempleteController;
 import com.powernode.templete.TempleteService;
+import com.powernode.util.ApplicationListener;
+import com.powernode.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,8 +34,8 @@ public class DictionaryTypeController extends TempleteController<DictionaryType>
     public TempleteService<DictionaryType> getService() {
         return dictionaryTypeService;
     }
-    
-     @RequestMapping("list")
+
+    @RequestMapping("list")
     @Override
     public List<DictionaryType> list() {
         return super.list();
@@ -54,12 +56,12 @@ public class DictionaryTypeController extends TempleteController<DictionaryType>
     @RequestMapping("update")
     @Override
     public DictionaryType update(Integer dictTypeId) {
-        DictionaryType dictionaryType=new DictionaryType();
-        if (dictTypeId==null){
+        DictionaryType dictionaryType = new DictionaryType();
+        if (dictTypeId == null) {
             dictionaryType.setMsg("新增字典类型");
-            return  dictionaryType;
-        }else {
-            dictionaryType=super.update(dictTypeId);
+            return dictionaryType;
+        } else {
+            dictionaryType = super.update(dictTypeId);
             dictionaryType.setMsg("编辑字典类型");
         }
         return dictionaryType;
@@ -68,9 +70,12 @@ public class DictionaryTypeController extends TempleteController<DictionaryType>
     @RequestMapping("saveUpdate")
     @Override
     public String saveUpdate(DictionaryType formData) {
-         if (formData.getDictTypeId()==null){
+        //更新后刷新缓存
+        List<DictionaryType> dictionaryTypeList =dictionaryTypeService.list();
+        ApplicationListener.putDictionaryTypeToApplication(dictionaryTypeList, Util.getApplication());
+        if (formData.getDictTypeId() == null) {
             return super.save(formData);
-        }else {
+        } else {
             return super.saveUpdate(formData);
         }
 

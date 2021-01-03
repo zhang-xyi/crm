@@ -2,6 +2,7 @@ package com.powernode.controller;
 
 import com.powernode.entity.Dept;
 import com.powernode.entity.Dictionary;
+import com.powernode.entity.DictionaryType;
 import com.powernode.model.service.DeptService;
 import com.powernode.model.service.DictionaryService;
 import com.powernode.model.service.DictionaryTypeService;
@@ -63,16 +64,18 @@ public class DictionaryController extends TempleteController<Dictionary> {
     }
 
     @RequestMapping("save")
-    @Override
     public String save(Dictionary formData) {
         super.save(formData);
+        //保存后刷新缓存
+        ApplicationListener.putDictionaryToApplication(dictionaryService.list(), Util.getApplication());
+        ApplicationListener.putDictionaryTypeToApplication(dictionaryTypeService.list(),Util.getApplication());
         return "redirect:list?dictTypeId=" + formData.getDictTypeId();
     }
 
     @RequestMapping("update")
     public void update(Map<String, Object> map, int dictTypeId, Integer id) {
         map.put("DictionaryType", dictionaryTypeService.get(dictTypeId));
-        map.put("DictionaryTypeList", dictionaryTypeService.list());
+        //map.put("DictionaryTypeList", dictionaryTypeService.list());
         map.put("dictionary", super.update(id));
     }
 
@@ -84,6 +87,10 @@ public class DictionaryController extends TempleteController<Dictionary> {
 
     public String saveUpdate(Dictionary formData) {
         super.saveUpdate(formData);
+        //更新后刷新缓存
+        ApplicationListener.putDictionaryToApplication(dictionaryService.list(), Util.getApplication());
+        ApplicationListener.putDictionaryTypeToApplication(dictionaryTypeService.list(),Util.getApplication());
+
         return "redirect:list?dictTypeId=" + formData.getDictTypeId();
     }
 
@@ -100,11 +107,11 @@ public class DictionaryController extends TempleteController<Dictionary> {
 
     @RequestMapping("updateCacheData")
     @ResponseBody
-    public Map<String, Object> updateCacheData(HttpServletRequest request) {
+    public Map<String, Object> updateCacheData() {
 
         List<Dictionary> dictionaryList = dictionaryService.list();
 
-        ApplicationListener.putDictsToApplication(dictionaryList, Util.getApplication());
+        ApplicationListener.putDictionaryToApplication(dictionaryList, Util.getApplication());
 
         Map<String, Object> result = new HashMap<>();
 

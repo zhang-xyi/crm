@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.powernode.model.dao.DealDao">
+  <resultMap id="BaseResultMap" type="com.powernode.entity.Deal">
+    <id column="deal_id" jdbcType="INTEGER" property="dealId" />
+    <result column="clue_id" jdbcType="INTEGER" property="clueId" />
+    <result column="activity_id" jdbcType="INTEGER" property="activityId" />
+    <result column="linkman_id" jdbcType="INTEGER" property="linkmanId" />
+    <result column="deal_no" jdbcType="VARCHAR" property="dealNo" />
+    <result column="deal_name" jdbcType="VARCHAR" property="dealName" />
+    <result column="deal_content" jdbcType="VARCHAR" property="dealContent" />
+    <result column="deal_type" jdbcType="INTEGER" property="dealType" />
+    <result column="deal_actual_date" jdbcType="TIMESTAMP" property="dealActualDate" />
+    <result column="deal_plan_date" jdbcType="TIMESTAMP" property="dealPlanDate" />
+    <result column="deal_amont" jdbcType="DOUBLE" property="dealAmont" />
+    <result column="deal_source" jdbcType="INTEGER" property="dealSource" />
+    <result column="deal_way" jdbcType="INTEGER" property="dealWay" />
+    <result column="deal_status" jdbcType="INTEGER" property="dealStatus" />
+    <result column="create_by" jdbcType="INTEGER" property="createBy" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_by" jdbcType="INTEGER" property="updateBy" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="linkman_name" jdbcType="VARCHAR" property="cutomerLinkman.linkmanName" />
+    <result column="cust_name" jdbcType="VARCHAR" property="customer.custName" />
+    <result column="cust_Id" jdbcType="INTEGER" property="customer.custId" />
+    <result column="activity_id" jdbcType="INTEGER" property="activityId" />
+    <result column="activity_name" jdbcType="VARCHAR" property="marketActivity.activityName" />
+    <result column="clue_id" jdbcType="INTEGER" property="clueId" />
+    <result column="clue_name" jdbcType="INTEGER" property="clue.clueName" />
+    <result column="stage_name" jdbcType="VARCHAR" property="dealStage.stageName" />
+    <result column="create_name" jdbcType="VARCHAR" property="creator.employeeName"/>
+    <result column="create_no" jdbcType="VARCHAR" property="creator.employeeNo"/>
+    <result column="update_name" jdbcType="VARCHAR" property="updator.employeeName"/>
+    <result column="update_no" jdbcType="VARCHAR" property="updator.employeeNo"/>
+  </resultMap>
+  <sql id="Base_Column_List">
+    deal_id, clue_id, activity_id, linkman_id, deal_no, deal_name, deal_content, deal_type, 
+    deal_actual_date, deal_plan_date, deal_amont, deal_source, deal_way, deal_status, 
+    create_by, create_time, update_by, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    d.deal_id,d.clue_id,d.activity_id,d.linkman_id,d.deal_no,
+    d.deal_name,d.deal_content,d.deal_type,d.deal_actual_date,d.deal_plan_date,
+    d.deal_amont,d.deal_source,d.deal_way,d.deal_status,d.create_by,
+    d.create_time,d.update_by,d.update_time,
+    cl.linkman_name,
+    c.cust_name,c.cust_id,
+    ma.activity_name,
+    clue.clue_name,
+    ec.employee_name create_name,ec.employee_no create_no,
+    eu.employee_name update_name,eu.employee_no update_no
+    from t_deal d
+    left join t_cutomer_linkman cl on cl.linkman_id = d.linkman_id
+    left join t_customer c on c.cust_id = cl.cust_id
+    left join t_market_activity ma on ma.activity_id = d.activity_id
+    left join t_clue clue on clue.clue_id = d.clue_id
+    left join t_employee ec on d.create_by = ec.employee_id
+    left join t_employee eu on d.update_by = eu.employee_id
+    where d.deal_id = #{dealId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    d.deal_id,d.clue_id,d.activity_id,d.linkman_id,d.deal_no,
+    d.deal_name,d.deal_content,d.deal_type,d.deal_actual_date,d.deal_plan_date,
+    d.deal_amont,d.deal_source,d.deal_way,d.deal_status,d.create_by,
+    d.create_time,d.update_by,d.update_time,
+    cl.linkman_name,
+    c.cust_name,c.cust_id,
+    ds.stage_name,
+    ec.employee_name create_name,ec.employee_no create_no,
+    eu.employee_name update_name,eu.employee_no update_no
+    from t_deal d
+    left join t_cutomer_linkman cl on cl.linkman_id = d.linkman_id
+    left join t_customer c on c.cust_id = cl.cust_id
+    left join t_deal_stage ds on d.deal_id = ds.deal_id
+    left join t_employee ec on d.create_by = ec.employee_id
+    left join t_employee eu on d.update_by = eu.employee_id
+    where ds.is_current = 1
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_deal
+    where deal_id = #{dealId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="deal_id" keyProperty="dealId" parameterType="com.powernode.entity.Deal" useGeneratedKeys="true">
+    insert into t_deal (clue_id, activity_id, linkman_id, 
+      deal_no, deal_name, deal_content, 
+      deal_type, deal_actual_date, deal_plan_date, 
+      deal_amont, deal_source, deal_way, 
+      deal_status, create_by, create_time, 
+      update_by, update_time)
+    values (#{clueId,jdbcType=INTEGER}, #{activityId,jdbcType=INTEGER}, #{linkmanId,jdbcType=INTEGER}, 
+      #{dealNo,jdbcType=VARCHAR}, #{dealName,jdbcType=VARCHAR}, #{dealContent,jdbcType=VARCHAR}, 
+      #{dealType,jdbcType=INTEGER}, #{dealActualDate,jdbcType=TIMESTAMP}, #{dealPlanDate,jdbcType=TIMESTAMP}, 
+      #{dealAmont,jdbcType=DOUBLE}, #{dealSource,jdbcType=INTEGER}, #{dealWay,jdbcType=INTEGER}, 
+      #{dealStatus,jdbcType=INTEGER}, #{createBy,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateBy,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyColumn="deal_id" keyProperty="dealId" parameterType="com.powernode.entity.Deal" useGeneratedKeys="true">
+    insert into t_deal
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="clueId != null">
+        clue_id,
+      </if>
+      <if test="activityId != null">
+        activity_id,
+      </if>
+      <if test="linkmanId != null">
+        linkman_id,
+      </if>
+      <if test="dealNo != null">
+        deal_no,
+      </if>
+      <if test="dealName != null">
+        deal_name,
+      </if>
+      <if test="dealContent != null">
+        deal_content,
+      </if>
+      <if test="dealType != null">
+        deal_type,
+      </if>
+      <if test="dealActualDate != null">
+        deal_actual_date,
+      </if>
+      <if test="dealPlanDate != null">
+        deal_plan_date,
+      </if>
+      <if test="dealAmont != null">
+        deal_amont,
+      </if>
+      <if test="dealSource != null">
+        deal_source,
+      </if>
+      <if test="dealWay != null">
+        deal_way,
+      </if>
+      <if test="dealStatus != null">
+        deal_status,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateBy != null">
+        update_by,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="clueId != null">
+        #{clueId,jdbcType=INTEGER},
+      </if>
+      <if test="activityId != null">
+        #{activityId,jdbcType=INTEGER},
+      </if>
+      <if test="linkmanId != null">
+        #{linkmanId,jdbcType=INTEGER},
+      </if>
+      <if test="dealNo != null">
+        #{dealNo,jdbcType=VARCHAR},
+      </if>
+      <if test="dealName != null">
+        #{dealName,jdbcType=VARCHAR},
+      </if>
+      <if test="dealContent != null">
+        #{dealContent,jdbcType=VARCHAR},
+      </if>
+      <if test="dealType != null">
+        #{dealType,jdbcType=INTEGER},
+      </if>
+      <if test="dealActualDate != null">
+        #{dealActualDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dealPlanDate != null">
+        #{dealPlanDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dealAmont != null">
+        #{dealAmont,jdbcType=DOUBLE},
+      </if>
+      <if test="dealSource != null">
+        #{dealSource,jdbcType=INTEGER},
+      </if>
+      <if test="dealWay != null">
+        #{dealWay,jdbcType=INTEGER},
+      </if>
+      <if test="dealStatus != null">
+        #{dealStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.powernode.entity.Deal">
+    update t_deal
+    <set>
+      <if test="clueId != null">
+        clue_id = #{clueId,jdbcType=INTEGER},
+      </if>
+      <if test="activityId != null">
+        activity_id = #{activityId,jdbcType=INTEGER},
+      </if>
+      <if test="linkmanId != null">
+        linkman_id = #{linkmanId,jdbcType=INTEGER},
+      </if>
+      <if test="dealNo != null">
+        deal_no = #{dealNo,jdbcType=VARCHAR},
+      </if>
+      <if test="dealName != null">
+        deal_name = #{dealName,jdbcType=VARCHAR},
+      </if>
+      <if test="dealContent != null">
+        deal_content = #{dealContent,jdbcType=VARCHAR},
+      </if>
+      <if test="dealType != null">
+        deal_type = #{dealType,jdbcType=INTEGER},
+      </if>
+      <if test="dealActualDate != null">
+        deal_actual_date = #{dealActualDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dealPlanDate != null">
+        deal_plan_date = #{dealPlanDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dealAmont != null">
+        deal_amont = #{dealAmont,jdbcType=DOUBLE},
+      </if>
+      <if test="dealSource != null">
+        deal_source = #{dealSource,jdbcType=INTEGER},
+      </if>
+      <if test="dealWay != null">
+        deal_way = #{dealWay,jdbcType=INTEGER},
+      </if>
+      <if test="dealStatus != null">
+        deal_status = #{dealStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        update_by = #{updateBy,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where deal_id = #{dealId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.powernode.entity.Deal">
+    update t_deal
+    set clue_id = #{clueId,jdbcType=INTEGER},
+      activity_id = #{activityId,jdbcType=INTEGER},
+      linkman_id = #{linkmanId,jdbcType=INTEGER},
+      deal_no = #{dealNo,jdbcType=VARCHAR},
+      deal_name = #{dealName,jdbcType=VARCHAR},
+      deal_content = #{dealContent,jdbcType=VARCHAR},
+      deal_type = #{dealType,jdbcType=INTEGER},
+      deal_actual_date = #{dealActualDate,jdbcType=TIMESTAMP},
+      deal_plan_date = #{dealPlanDate,jdbcType=TIMESTAMP},
+      deal_amont = #{dealAmont,jdbcType=DOUBLE},
+      deal_source = #{dealSource,jdbcType=INTEGER},
+      deal_way = #{dealWay,jdbcType=INTEGER},
+      deal_status = #{dealStatus,jdbcType=INTEGER},
+      create_by = #{createBy,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where deal_id = #{dealId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -37,6 +37,7 @@ public class EmployeeController {
     public PageInfo<Employee> list(Employee employee) {
 //        deptList.addAll(deptService.list());
         PageInfo<Employee> pageInfo = new PageInfo<>();
+//        List list=employeeService.list(employee);
         pageInfo.setList(employeeService.list(employee));
         return pageInfo;
     }

@@ -9,4 +9,6 @@ public interface DictionaryDao extends TempleteDao<Dictionary> {
 
     List<Dictionary> selectByDictTypeId(int dictTypeId);
 
+//    int selectMax(int dictTypeId);
+
 }

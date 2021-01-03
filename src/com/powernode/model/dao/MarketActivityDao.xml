@@ -14,21 +14,70 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_by" jdbcType="INTEGER" property="updateBy" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="create_name" jdbcType="VARCHAR" property="creator.employeeName"/>
+    <result column="create_no" jdbcType="VARCHAR" property="creator.employeeNo"/>
+    <result column="update_name" jdbcType="VARCHAR" property="updator.employeeName"/>
+    <result column="update_no" jdbcType="VARCHAR" property="updator.employeeNo"/>
   </resultMap>
   <sql id="Base_Column_List">
     activity_id, activity_name, activity_content, activity_person, activity_place, activity_start_date, 
     activity_end_date, activity_cost, create_by, create_time, update_by, update_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from t_market_activity
+   select
+     a.activity_id,a.activity_name,a.activity_content,a.activity_person,
+     a.activity_place,a.activity_start_date,a.activity_end_date,a.activity_cost,
+     a.create_by,a.create_time,a.update_by,a.update_time,
+     ec.employee_name create_name,ec.employee_no create_no,
+     eu.employee_name update_name,eu.employee_no update_no
+    from t_market_activity a
+    left join t_employee ec on a.create_by = ec.employee_id
+    left join t_employee eu on a.update_by = eu.employee_id
     where activity_id = #{activityId,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
     select
-    <include refid="Base_Column_List" />
+     a.activity_id,a.activity_name,a.activity_content,a.activity_person,
+     a.activity_place,a.activity_start_date,a.activity_end_date,a.activity_cost,
+     a.create_by,a.create_time,a.update_by,a.update_time,
+     ec.employee_name create_name,ec.employee_no create_no,
+     eu.employee_name update_name,eu.employee_no update_no
+    from t_market_activity a
+    left join t_employee ec on a.create_by = ec.employee_id
+    left join t_employee eu on a.update_by = eu.employee_id
+    order by activity_id desc
+  </select>
+  <select id="selectAllByActivity" resultMap="BaseResultMap">
+    select
+     a.activity_id,a.activity_name,a.activity_content,a.activity_person,
+     a.activity_place,a.activity_start_date,a.activity_end_date,a.activity_cost,
+     a.create_by,a.create_time,a.update_by,a.update_time,
+     ec.employee_name create_name,ec.employee_no create_no,
+     eu.employee_name update_name,eu.employee_no update_no
+    from t_market_activity a
+    left join t_employee ec on a.create_by = ec.employee_id
+    left join t_employee eu on a.update_by = eu.employee_id
+    <where>
+      <if test="activityName != null and activityName != ''">
+          and a.activity_name like concat('%',#{activityName},'%')
+      </if>
+      <if test="owner != null and owner != ''">
+          and ec.employee_name like concat('%',#{owner},'%')
+      </if>
+      <if test="startTime != null and startTime != ''">
+          and a.activity_start_date &gt;= str_to_date(#{startTime},"%Y-%m-%d %H:%i:%s")
+      </if>
+      <if test="endTime != null and endTime != ''">
+        and a.activity_end_date &lt;= str_to_date(#{endTime},"%Y-%m-%d %H:%i:%s")
+      </if>
+    </where>
+    order by activity_id desc
+  </select>
+  <select id="selectByName" resultMap="BaseResultMap">
+    select
+     <include refid="Base_Column_List"/>
     from t_market_activity
+    where activity_name like concat('%',#{name},'%')
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from t_market_activity
